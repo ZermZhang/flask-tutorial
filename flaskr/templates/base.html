@@ -10,8 +10,6 @@
 
     <!-- 在 head 标签的最后引入 Bootstrap CSS 文件 -->
     <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/4.4.1/css/bootstrap.min.css" id="bootstrapCss">
-        <!-- 引入登录页面自身的 CSS 样式 -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme_default.css') }}">
     <!-- 如果 CDN 加载 Bootstrap CSS 失败，则从本地引入 -->
     <script>
         window.addEventListener('error', function (e) {
@@ -21,10 +19,13 @@
             }
         }, true)
     </script>
-    <meta name="og:site_name" content="{{ admin }}">
+    <!-- 引入登录页面自身的 CSS 样式 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme_default.css') }}">
+    <!-- 共用的只有这一个 -->
+    <meta name="og:site_name" content="{{ admin.blog_title }}">
     <!-- 其它的通过 block 在子模板中复写 -->
     {% block meta %}{% endblock %}
-  <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
     <!-- 在 body 标签最后引入 Bootstrap 依赖的JS 文件 -->
@@ -60,8 +61,9 @@
           </ul>
       </div>
   </nav>
+
+
   {% block content %}
-  {% endblock %}
     <!-- 回到顶部按钮开始 -->
     <button class="btn toTop hide" role="button" id="toTop">
         <svg t="1578375730588" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4618">
@@ -72,6 +74,7 @@
         </svg>
     </button>
     <!-- 回到顶部按钮结束 -->
+    {% endblock %}
 
   <footer>
       <p class="footer_title">我的Blog</p>

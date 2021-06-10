@@ -2,20 +2,33 @@
 <!DOCTYPE html>
 
 {% extends 'base.html' %}
+{% from 'macros.html' import render_index_links %}
 
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>首页</title>
-</head>
+
+{% block meta %}
+    <meta name="description" content="blog_subtitle">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Home">
+    <meta property="og:description" content="blog_subtitle">
+{% endblock %}
+
 <body>
-<h1>Blog 首页</h1>
 
 {% block content %}
-<br/>
-{% for post in posts %}
-  <h2>{{ post.title }}</h2>
-{% endfor %}
+    <!-- 巨幕开始 -->
+    <div class="jumbotron jumbotron-fluid d-flex align-items-center min-vh-100" id="indexJumbotron">
+        <div class="container">
+            <h1 class="display-2">{{ admin.blog_title }}</h1>
+            <p class="lead col-12">{{ admin.blog_subtitle }}</p>
+            <div class="row justify-content-center">
+                <ul class="link-list">
+                    {{ render_index_links(links) }}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- 巨幕结束 -->
 {% endblock %}
 
 </body>
