@@ -9,14 +9,14 @@
 @Desciption     :
 """
 import os
-from flask import Flask
 from datetime import timedelta, datetime
 
-from . import db
-from . import auth
-from . import blog
-
+from flask import Flask
 from flask_bootstrap import Bootstrap
+
+from .web import auth, blog
+from . import db
+from flaskr.libs.extensions import get_login_manager
 
 
 def register_template_context(app):
@@ -31,7 +31,6 @@ def register_template_context(app):
         admin = [ele[1] for ele in posts if ele[1] == 'admin']
         current_year = datetime.now().year
         return {"admin": admin, "current_year": current_year}
-
 
 
 def create_app(test_config=None):
@@ -66,6 +65,8 @@ def create_app(test_config=None):
 
     # 调用环境变量函数
     register_template_context(app)
+    login_manager = get_login_manager()
+    login_manager.init_app(app)
 
     # 导入并注册蓝图
     app.register_blueprint(auth.bp)

@@ -16,6 +16,8 @@ from flask import (
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from flaskr.db import get_db
+from flaskr.libs.forms import LoginForm
+
 
 # 创建授权蓝图，url_prefix会添加到所有与蓝图相关代的URL前面
 bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -56,34 +58,42 @@ def register():
     return render_template('auth/register.html')
 
 
-@bp.route('/login', methods=('GET', 'POST'))
+@bp.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        db = get_db()
-        error = None
-        user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
-        ).fetchone()
+    form = LoginForm(request.form)
+    if form.validate_on_submit():
+        pass
+    return render_template('auth/login.html', form=form)
 
-        if user is None:
-            error = 'Incorrect username.'
-        elif not check_password_hash(user['password'], password):
-            error = 'Incorrect password.'
 
-        if error is None:
-            # session是一个dict，用来存储横跨请求的值
-            # 验证成功后，用户id会被存储在一个新的会话中
-            # 会话数据被储存到一个向浏览器发送的cookie中，在后继请求中，浏览器会返回它。
-            # Flask会安全对数据进行签名以防数据被篡改。
-            session.clear()
-            session['user_id'] = user['id']
-            return redirect(url_for('index'))
-
-        flash(error)
-
-    return render_template('auth/login.html')
+# @bp.route('/login', methods=('GET', 'POST'))
+# def login():
+#     if request.method == 'POST':
+#         username = request.form['username']
+#         password = request.form['password']
+#         db = get_db()
+#         error = None
+#         user = db.execute(
+#             'SELECT * FROM user WHERE username = ?', (username,)
+#         ).fetchone()
+#
+#         if user is None:
+#             error = 'Incorrect username.'
+#         elif not check_password_hash(user['password'], password):
+#             error = 'Incorrect password.'
+#
+#         if error is None:
+#             # session是一个dict，用来存储横跨请求的值
+#             # 验证成功后，用户id会被存储在一个新的会话中
+#             # 会话数据被储存到一个向浏览器发送的cookie中，在后继请求中，浏览器会返回它。
+#             # Flask会安全对数据进行签名以防数据被篡改。
+#             session.clear()
+#             session['user_id'] = user['id']
+#             return redirect(url_for('index'))
+#
+#         flash(error)
+#
+#     return render_template('auth/login.html')
 
 
 # 注册一个在视图函数之前运行的函数，不论URL是什么
