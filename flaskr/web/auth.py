@@ -62,7 +62,20 @@ def register():
 def login():
     form = LoginForm(request.form)
     if form.validate_on_submit():
-        pass
+        # 表单校验成功，和表中的值进行验证
+        print(form.username.data)
+        db = get_db()
+        user = db.execute(
+            'SELECT * from user WHERE username = "{}"'.format(form.username.data)
+        ).fetchone()
+
+        if user and check_password_hash(user['password'], form.password.data):
+            # 用户名存在并且密码验证通过
+            session.clear()
+            session['user_id'] = user['id']
+            return redirect(url_for('index'))
+        else:
+            pass
     return render_template('auth/login.html', form=form)
 
 

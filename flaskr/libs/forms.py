@@ -23,7 +23,7 @@ class LoginForm(FlaskForm):
     password = PasswordField(
         validators=[
             DataRequired('密码不能为空'),
-            Length(8, 24, message='密码应在 8 到 24 个字符之间')
+            Length(3, 24, message='密码应在 8 到 24 个字符之间')
         ]
     )
-    remeber = BooleanField()
+    remember = BooleanField()
