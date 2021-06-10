@@ -10,13 +10,28 @@
 """
 import os
 from flask import Flask
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 from . import db
 from . import auth
 from . import blog
 
 from flask_bootstrap import Bootstrap
+
+
+def register_template_context(app):
+    """
+    :param app: flask app 实例
+    :return: 全局变量
+    """
+    @app.context_processor
+    def generate_template_context():
+        db_cursor = db.get_db()
+        posts = db_cursor.execute('SELECT id, username from user').fetchall()
+        admin = [ele[1] for ele in posts if ele[1] == 'admin']
+        current_year = datetime.now().year
+        return {"admin": admin, "current_year": current_year}
+
 
 
 def create_app(test_config=None):
@@ -48,6 +63,9 @@ def create_app(test_config=None):
         return 'Hello, World!'
 
     db.init_app(app)
+
+    # 调用环境变量函数
+    register_template_context(app)
 
     # 导入并注册蓝图
     app.register_blueprint(auth.bp)
