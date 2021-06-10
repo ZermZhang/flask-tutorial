@@ -10,6 +10,8 @@
 
     <!-- 在 head 标签的最后引入 Bootstrap CSS 文件 -->
     <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/4.4.1/css/bootstrap.min.css" id="bootstrapCss">
+        <!-- 引入登录页面自身的 CSS 样式 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme_default.css') }}">
     <!-- 如果 CDN 加载 Bootstrap CSS 失败，则从本地引入 -->
     <script>
         window.addEventListener('error', function (e) {

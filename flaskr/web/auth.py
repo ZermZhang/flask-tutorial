@@ -63,7 +63,6 @@ def login():
     form = LoginForm(request.form)
     if form.validate_on_submit():
         # 表单校验成功，和表中的值进行验证
-        print(form.username.data)
         db = get_db()
         user = db.execute(
             'SELECT * from user WHERE username = "{}"'.format(form.username.data)
