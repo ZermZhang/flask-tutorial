@@ -1,5 +1,25 @@
 <!-- app/templates/macros.html -->
 
+{% macro render_post_summary(post) %}
+    {#
+        对文章摘要进行渲染
+        :post 文章查询记录
+    #}
+    <div class="col-10 post-container">
+        <a class="post-title" href="#">
+            <h2 class="display-4">{{ post['title'] }}</h2>
+        </a>
+        <div class="post-meta">
+            <span>{{ post['username'] }}</span>
+            <span class="meta-divider">/</span>
+            <span>{{ post['created'].strftime('%Y-%m-%d %HH:%MM') }}</span>
+        </div>
+
+        <p class="post-description">{{ post['body'] }}</p>
+    </div>
+{% endmacro %}
+
+
 {% macro render_index_links(links) %}
     {#
         渲染首页链接，首页不渲染 tag=other 或 friendLink 的链接
@@ -129,32 +149,4 @@
             </li>
         {% endif %}
     {% endfor %}
-{% endmacro %}
-
-{% macro render_post_summary(post, admin) %}
-    {#
-        渲染单条文章摘要
-        :param post 文章查询记录
-        :param admin 管理员查询记录
-    #}
-    <div class="col-10 post-container">
-        <!-- todo: 文章详情页 -->
-        <a class="post-title" href="#">
-            <h2 class="display-4">{{ post.title }}</h2>
-        </a>
-        <div class="post-meta">
-            <span>{{ admin.nickname }}</span>
-            <span class="meta-divider">/</span>
-            {% for category in post.categories %}
-                <a class="meta-link" href="#">{{ category.name }}</a>
-            {% endfor %}
-        </div>
-        <p class="post-description">{{ post.content|striptags|truncate(250) }}</p>
-        <!-- todo: 文章详情页 -->
-        <a href="#">
-            <button type="button" class="btn btn-outline-primary">阅读更多</button>
-        </a>
-        <div class="post-first d-none d-md-block">{{ post.title[0] }}</div>
-        <hr>
-    </div>
 {% endmacro %}

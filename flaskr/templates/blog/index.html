@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 {% extends 'base.html' %}
-{% from 'macros.html' import render_index_links %}
+{% from 'macros.html' import render_index_links, render_post_summary %}
 
 <html lang="en">
 
@@ -31,8 +31,9 @@
     {% for post in posts %}
         <article class='post'>
             <div class="row justify-content-center">
-                <h1>{{ post['title'] }}</h1>
-                <div>by {{ post['username'] }} on {{ post['created'].strftime('%Y-%m-%d %HH:%MM') }}</div>
+<!--                <h1>{{ post['title'] }}</h1>-->
+<!--                <div>by {{ post['username'] }} on {{ post['created'].strftime('%Y-%m-%d %HH:%MM') }}</div>-->
+                {{ render_post_summary(post) }}
             </div>
         </article>
     {% endfor %}
