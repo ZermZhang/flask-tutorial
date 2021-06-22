@@ -28,10 +28,31 @@
         <div class="post-meta">
             <span>{{ post['username'] }}</span>
             <span class="meta-divider">/</span>
-            <span>{{ post['created'].strftime('%Y-%m-%d %HH:%MM') }}</span>
+            <span>{{ post['created'].strftime('%Y-%m-%d %H:%M') }}</span>
         </div>
 
-        <p class="post-description">{{ post['body'] }}</p>
+        <p class="post-description">{{ post['body'].split('\n')[0] }}</p>
+    </div>
+{% endmacro %}
+
+{% macro render_post_detail(post) %}
+    {#
+        对文章摘要进行渲染
+        :post 文章查询记录
+    #}
+    <div class="col-10 post-container">
+        <a class="post-title" href="{{ url_for('blog.detail', id=post['id']) }}">
+            <h2 class="display-4">{{ post['title'] }}</h2>
+        </a>
+        <div class="post-meta">
+            <span>{{ post['username'] }}</span>
+            <span class="meta-divider">/</span>
+            <span>{{ post['created'].strftime('%Y-%m-%d %H:%M') }}</span>
+        </div>
+
+        {% for paragraph in post['body'].split('\n') %}
+            <p class="post-description">{{ paragraph }}</p>
+        {% endfor %}
     </div>
 {% endmacro %}
 
