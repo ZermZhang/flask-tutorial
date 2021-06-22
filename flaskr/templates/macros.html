@@ -1,12 +1,28 @@
 <!-- app/templates/macros.html -->
 
+{% macro render_pagination(pagination, endpoint) %}
+    <div class="pagination">
+        {% for page in pagination.iter_pages() %}
+            {% if page %}
+                {% if page != pagination.page %}
+                    <a href="{{ url_for(endpoint, page=page) }}"> {{ page }} </a>
+                {% else %}
+                    <strong>{{ page }}</strong>
+                {% endif %}
+            {% else %}
+                <span class="ellipsis"></span>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endmacro %}
+
 {% macro render_post_summary(post) %}
     {#
         对文章摘要进行渲染
         :post 文章查询记录
     #}
     <div class="col-10 post-container">
-        <a class="post-title" href="#">
+        <a class="post-title" href="{{ url_for('blog.detail', id=post['id']) }}">
             <h2 class="display-4">{{ post['title'] }}</h2>
         </a>
         <div class="post-meta">
