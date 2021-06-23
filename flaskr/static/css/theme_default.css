@@ -23,6 +23,11 @@ body {
     z-index: 1030;
 }
 
+.navbar-transparent {
+    background: none !important;
+    box-shadow: none;
+}
+
 /* 导航结束 */
 
 /* 巨幕开始 */

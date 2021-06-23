@@ -11,6 +11,7 @@
 <meta property="og:title" content="Home">
 <meta property="og:description" content="blog_subtitle">
 {% endblock %}
+{% block title %}{{ admin.blog_title }} - {{ admin.blog_subtitle }}{% endblock %}
 
 <body>
 {% block content %}
@@ -20,6 +21,11 @@
         </div>
     </article>
 {% endblock %}
+
+{% block js %}
+    {{ super() }}
+{% endblock %}
+
 </body>
 
 </html>
