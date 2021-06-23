@@ -4,16 +4,14 @@
 {% extends 'base.html' %}
 {% from 'macros.html' import render_index_links, render_post_summary %}
 
-<html lang="en">
-
 {% block meta %}
     <meta name="description" content="blog_subtitle">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Home">
     <meta property="og:description" content="blog_subtitle">
 {% endblock %}
+{% block title %}{{ admin.blog_title }} - {{ admin.blog_subtitle }}{% endblock %}
 
-<body>
 
 {% block content %}
     <!-- 巨幕开始 -->
@@ -21,23 +19,26 @@
         <div class="container">
             <h1 class="display-2">{{ admin.blog_title }}</h1>
             <p class="lead col-12">{{ admin.blog_subtitle }}</p>
-
             <div class="row justify-content-center">
+                <ul class="link-list">
+                    {{ render_index_links(links) }}
+                </ul>
             </div>
         </div>
     </div>
     <!-- 巨幕结束 -->
-    <!-- 文章展示 -->
-    {% for post in posts %}
-        <article class='post'>
-            <div class="row justify-content-center">
-<!--                <h1>{{ post['title'] }}</h1>-->
-<!--                <div>by {{ post['username'] }} on {{ post['created'].strftime('%Y-%m-%d %HH:%MM') }}</div>-->
-                {{ render_post_summary(post) }}
+    <!-- 文章摘要开始 -->
+    <div class="container posts-container">
+        <div class="row">
+            <div class="col-12 header">
+                <hr>
             </div>
-        </article>
-    {% endfor %}
+            {% for post in posts %}
+                {{ render_post_summary(post) }}
+            {% endfor %}
+        </div>
+    </div>
+    <!-- 返回页首的按钮 -->
+    {{ super() }}
+    <!-- 文章摘要结束 -->
 {% endblock %}
-
-</body>
-</html>

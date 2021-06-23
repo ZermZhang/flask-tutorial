@@ -8,8 +8,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 
-    <!-- 在 head 标签的最后引入 Bootstrap CSS 文件 -->
-    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/4.4.1/css/bootstrap.min.css" id="bootstrapCss">
+    <!-- 共用的只有这一个 -->
+    <meta name="og:site_name" content="{{ admin.blog_title }}">
+    <!-- 其它的通过 block 在子模板中复写 -->
+    {% block meta %}{% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+
     <!-- 如果 CDN 加载 Bootstrap CSS 失败，则从本地引入 -->
     <script>
         window.addEventListener('error', function (e) {
@@ -21,29 +25,12 @@
     </script>
     <!-- 引入登录页面自身的 CSS 样式 -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/theme_default.css') }}">
-    <!-- 共用的只有这一个 -->
-    <meta name="og:site_name" content="{{ admin.blog_title }}">
-    <!-- 其它的通过 block 在子模板中复写 -->
-    {% block meta %}{% endblock %}
-    <title>{% block title %}{% endblock %}</title>
+    <!-- 在 head 标签的最后引入 Bootstrap CSS 文件 -->
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/4.4.1/css/bootstrap.min.css" id="bootstrapCss">
 </head>
-<body>
-    <!-- 在 body 标签最后引入 Bootstrap 依赖的JS 文件 -->
-    <!-- 判断 CDN 引入 JS 文件是否成功，不成功则新增一个 `<script>` 标签本地引入 -->
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
-    <script>
-        window.jQuery || document.write("<script src='{{ url_for('static', filename='3rd/jquery_slim3.4.1.js') }}'><\/script>")
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    <script>
-        typeof(Popper) !== 'undefined' || document.write("<script src='{{ url_for('static', filename='3rd/popper1.16.0.js') }}'><\/script>")
-    </script>
-    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/4.4.1/bootstrap.min.js"></script>
-    <script>
-        typeof(jQuery.fn.modal) !== 'undefined' || document.write("<script src='{{ url_for('static', filename='3rd/bootstrap4.4.1.js') }}'><\/script>")
-    </script>
 
-  <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed_top navbar-transparent" id="mainNavbar">
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed_top navbar-transparent" id="mainNavbar">
       <div class="container">
           <a class="navbar-brand" href="{{ url_for('index') }}">我的测试blog</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
@@ -53,17 +40,16 @@
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
               <ul class="navbar-nav">
                 {% if g.user %}
-                  <li class="navbar-item"><a class="nav-link" href="">{{ g.user['username'] }}</a>
-                  <li class="navbar-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Log Out</a>
+                  <li class="navbar-item"><a class="nav-link" href="">{{ g.user['username'] }}</a></li>
+                  <li class="navbat-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Log Out</a></li>
                 {% else %}
-                  <li class="navbar-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a>
-                  <li class="navbar-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Log In</a>
+                  <li class="navbar-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
+                  <li class="navbar-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Log In</a></li>
                 {% endif %}
               </ul>
           </div>
       </div>
   </nav>
-
 
   {% block content %}
     <!-- 回到顶部按钮开始 -->
@@ -83,5 +69,31 @@
       <p>&copy; {{ current_year }} 我的测试Blog</p>
       <p>Powered by Flask</p>
   </footer>
+
+<!-- 在 body 标签最后引入 Bootstrap 依赖的JS 文件 -->
+<!-- 判断 CDN 引入 JS 文件是否成功，不成功则新增一个 `<script>` 标签本地引入 -->
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+<script>
+    window.jQuery || document.write("<script src='{{ url_for('static', filename='3rd/jquery_slim3.4.1.js') }}'><\/script>")
+</script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script>
+    typeof(Popper) !== 'undefined' || document.write("<script src='{{ url_for('static', filename='3rd/popper1.16.0.js') }}'><\/script>")
+</script>
+<script src="https://ajax.aspnetcdn.com/ajax/bootstrap/4.4.1/bootstrap.min.js"></script>
+<script>
+    typeof(jQuery.fn.modal) !== 'undefined' || document.write("<script src='{{ url_for('static', filename='3rd/bootstrap4.4.1.js') }}'><\/script>")
+</script>
+
+<!-- 引入 tools.js toggle-navbar-bg.js -->
+<script src="{{ url_for('static', filename='js/tools.js') }}"></script>
+<script src="{{ url_for('static', filename='js/toggle-navbar-bg.js') }}"></script>
+
+<!-- 添加一个 block 让子模板可以单独引入 js 脚本 -->
+{% block js %}
+    <!-- 需要返回顶部功能的页面继承即可 -->
+    <script src="{{ url_for('static', filename='js/totop.js') }}"></script>
+{% endblock %}
+
 </body>
 </html>
