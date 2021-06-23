@@ -15,15 +15,14 @@
 
 <body>
 {% block content %}
-     <article class="post">
-        <div class="row justify-content-center">
+    <div class="container posts-container">
+        <div class="row">
+            <div class="col-12 header">
+                <hr>
+            </div>
             {{ render_post_detail(post) }}
         </div>
-    </article>
-{% endblock %}
-
-{% block js %}
-    {{ super() }}
+    </div>
 {% endblock %}
 
 </body>
