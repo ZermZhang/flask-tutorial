@@ -88,11 +88,11 @@
 
 <!-- 引入 tools.js toggle-navbar-bg.js -->
 <script src="{{ url_for('static', filename='js/tools.js') }}"></script>
-<script src="{{ url_for('static', filename='js/toggle-navbar-bg.js') }}"></script>
 
 <!-- 添加一个 block 让子模板可以单独引入 js 脚本 -->
 {% block js %}
     <!-- 需要返回顶部功能的页面继承即可 -->
+    <script src="{{ url_for('static', filename='js/toggle-navbar-bg.js') }}"></script>
     <script src="{{ url_for('static', filename='js/totop.js') }}"></script>
 {% endblock %}
 
