@@ -1,4 +1,4 @@
-/* app/static/css/theme_default.css */
+/* flask/static/css/theme_default.css */
 body {
     background: #f8f8f8;
 }
@@ -24,8 +24,8 @@ body {
 }
 
 .navbar-transparent {
-    background: none !important;
-    box-shadow: none;
+    background: none
+    box-shadow: none
 }
 /* 导航结束 */
 

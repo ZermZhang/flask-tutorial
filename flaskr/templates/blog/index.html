@@ -4,6 +4,8 @@
 {% extends 'base.html' %}
 {% from 'macros.html' import render_index_links, render_post_summary %}
 
+<html lang="en">
+
 {% block meta %}
     <meta name="description" content="blog_subtitle">
     <meta property="og:type" content="website">
@@ -12,6 +14,7 @@
 {% endblock %}
 {% block title %}{{ admin.blog_title }} - {{ admin.blog_subtitle }}{% endblock %}
 
+<body>
 
 {% block content %}
     <!-- 巨幕开始 -->
@@ -47,3 +50,6 @@
     {{ super() }}
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 {% endblock %}
+
+</body>
+</html>
