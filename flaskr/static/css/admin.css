@@ -1,0 +1,35 @@
+body {
+    background: #f8f8f8;
+}
+
+a {
+    color: #3498db;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #2980b9;
+}
+
+.btn {
+    box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    box-shadow: unset;
+}
+
+/* 导航栏开始 */
+.fixed-top {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
+
+.navbar {
+    background: #fff;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+}
+/* 导航栏结束 */

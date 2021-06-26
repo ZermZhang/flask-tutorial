@@ -41,7 +41,7 @@
           <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
               <ul class="navbar-nav">
                 {% if g.user %}
-                  <li class="navbar-item"><a class="nav-link" href="">{{ g.user['username'] }}</a></li>
+                  <li class="navbar-item"><a class="nav-link" href="{{ url_for('admin.admin_index') }}">{{ g.user['username'] }}</a></li>
                   <li class="navbat-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Log Out</a></li>
                 {% else %}
                   <li class="navbar-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>

@@ -14,7 +14,7 @@ from datetime import timedelta, datetime
 from flask import Flask
 from flask_bootstrap import Bootstrap
 
-from .web import auth, blog
+from .web import auth, blog, admin
 from . import db
 from flaskr.libs.extensions import get_login_manager
 
@@ -70,6 +70,8 @@ def create_app(test_config=None):
 
     # 导入并注册蓝图
     app.register_blueprint(auth.bp)
+
+    app.register_blueprint(admin.bp)
 
     app.register_blueprint(blog.bp)
     app.add_url_rule('/', endpoint='index')
