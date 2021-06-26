@@ -1,10 +1,7 @@
 <!-- flaskr/templates/blog/index.html -->
-<!DOCTYPE html>
 
-{% extends 'base.html' %}
+{% extends 'blog/blog_base.html' %}
 {% from 'macros.html' import render_index_links, render_post_summary %}
-
-<html lang="en">
 
 {% block meta %}
     <meta name="description" content="blog_subtitle">
@@ -12,9 +9,6 @@
     <meta property="og:title" content="Home">
     <meta property="og:description" content="blog_subtitle">
 {% endblock %}
-{% block title %}{{ admin.blog_title }} - {{ admin.blog_subtitle }}{% endblock %}
-
-<body>
 
 {% block content %}
     <!-- 巨幕开始 -->
@@ -49,7 +43,5 @@
 {% block js %}
     {{ super() }}
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/totop.js') }}"></script>
 {% endblock %}
-
-</body>
-</html>
