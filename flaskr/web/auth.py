@@ -25,37 +25,36 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 # 关联页面 /register 和函数register
 # 当Flask收到一个指向/auth/register的请求时会调用register函数并将返回值作为响应
-@bp.route('/register', methods=('GET', 'POST'))
+@bp.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    form = LoginForm(request.form)
+    if form.validate_on_submit():
+        # get the form data
+        username = form.username.data
+        password = form.password.data
         db = get_db()
         error = None
 
         if not username:
-            error = 'Username is required'
+            error = 'User name is required'
         elif not password:
             error = 'Password is required'
         elif db.execute(
-            'SELECT id FROM user WHERE username = ?', (username,)
+            'SELECT id FROM user WHERE  username = ?', (username,)
         ).fetchone() is not None:
-            error = 'User {} is already registered'.format(username)
+            error = f'User {username} is already registered'
 
         if error is None:
             db.execute(
-                'INSERT INTO user (username, password) VALUES (?,?)',
+                'INSERT INTO user (username, password) VALUES (?, ?)',
                 (username, generate_password_hash(password))
             )
-            # 保存数据库修改结果
             db.commit()
-            # url_for根据登录视图的名称生成相应的URL
-            # redirect生成URL的一个重定向
             return redirect(url_for('auth.login'))
 
         flash(error)
 
-    return render_template('auth/register.html')
+    return render_template('auth/auth_register.html', form=form)
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -75,7 +74,7 @@ def login():
             return redirect(url_for('index'))
         else:
             pass
-    return render_template('auth/login.html', form=form)
+    return render_template('auth/auth_login.html', form=form)
 
 
 # 注册一个在视图函数之前运行的函数，不论URL是什么
