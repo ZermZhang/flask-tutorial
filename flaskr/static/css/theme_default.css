@@ -15,6 +15,18 @@ body {
     padding: 1rem 1rem;
 }
 
+.navbar-nav > li > a {
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 20px;
+}
+
+.navbar-brand {
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 20px;
+}
+
 .fixed_top {
     position: fixed;
     top: 0;
