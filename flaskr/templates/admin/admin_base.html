@@ -1,4 +1,4 @@
-<!--{% extends 'base.html' %}-->
+{% extends 'base.html' %}
 
 {% block css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
@@ -34,8 +34,8 @@
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
-                    <a class="btn btn-dark mr-2" href="{{ url_for(index) }}">回到Blog</a>
-                    <a class="btn btn-light" href="{{ auth.logout }}">登出</a>
+                    <a class="btn btn-dark mr-2" href="{{ url_for('blog.index') }}">回到Blog</a>
+                    <a class="btn btn-light" href="{{ url_for('auth.logout') }}">登出</a>
                 </form>
             </div>
         </div>
