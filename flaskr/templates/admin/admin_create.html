@@ -1,0 +1,32 @@
+<!-- flaskr/templates/admin/admin_create.html -->
+
+{% extends 'admin/admin_base.html' %}
+{% from 'macros.html' import render_csrf_btn, render_pagination, render_flash_message %}
+
+{% block title %}
+    {% if request.endpoint == 'web.edit_post' %}
+        编辑文章
+    {% else %}
+        新建文章
+    {% endif %}
+    - {{ admin.blog_title }}
+{% endblock %}
+
+{% block content %}
+    <div class="container-lg text-center posts-container">
+        <div class="row">
+            <div class="col-12">
+                <h5 class="card-title">文章编辑</h5>
+                <form>
+                    <div class="input-group mb-3 title-input">
+                        <input type="text" class="form-control" placeholder="Title-name">
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <input type="text" class=" form-control" placeholder="Title Content">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
