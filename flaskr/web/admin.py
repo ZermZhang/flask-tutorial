@@ -13,6 +13,8 @@ from flask import (
 )
 
 from flaskr.web.auth import login_required
+from flaskr.libs.forms import ArticleForm
+from flaskr.db import get_db
 
 bp = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -23,7 +25,22 @@ def admin_index():
     return render_template('admin/admin_index.html')
 
 
-@bp.route('/admin_create')
+@bp.route('/admin_create', methods=['GET', 'POST'])
 @login_required
 def admin_create():
-    return render_template('admin/admin_create.html')
+    form = ArticleForm(request.form)
+    if form.validate_on_submit():
+        article_title = form.title.data
+        article_content = form.content.data
+
+        db = get_db()
+        db.execute(
+            'INSERT INTO post (title, body, author_id)'
+            ' VALUES (?, ?, ?)',
+            (article_title, article_content, g.user['id'])
+        )
+        db.commit()
+        return redirect(url_for('blog.index'))
+    else:
+        print("Something wrong!")
+    return render_template('admin/admin_create.html', form=form)

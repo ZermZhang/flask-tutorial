@@ -13,20 +13,28 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container-lg text-center posts-container">
+    <div class="container-lg posts-container">
         <div class="row">
             <div class="col-12">
                 <h5 class="card-title">文章编辑</h5>
-                <form>
-                    <div class="input-group mb-3 title-input">
-                        <input type="text" class="form-control" placeholder="Title-name">
+                <form class="text-left" action="{{ url_for('admin.admin_create', next=request.args.get('next')) }}" method="post">
+                    {{ form.csrf_token }}
+                    <div class="form-group mb-3 title-input">
+                        <label for="title" class="d-none">文章名</label>
+                        <input type="text" class="form-control" placeholder="Title" id="title"
+                               name="title" value="{{ form.title.data }}">
                     </div>
 
-                    <div class="input-group mb-3">
-                        <input type="text" class=" form-control" placeholder="Title Content">
+                    <div class="form-group mb-3">
+                        <label for="content" class="d-none">文章内容</label>
+                        <textarea class="form-control" rows="16" style="min-width: 90%"
+                                  id="content" name="content" placeholder="Content">{{ form.content.data }}</textarea>
                     </div>
+
+                    <input class="btn btn-primary" type="submit" value="提交" id="submitBtn">
                 </form>
             </div>
+            <div class="card-footer text-muted text-left"></div>
         </div>
     </div>
 {% endblock %}

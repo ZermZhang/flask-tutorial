@@ -9,7 +9,7 @@
 @Desciption     :
 """
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Length
 
 
@@ -27,3 +27,13 @@ class LoginForm(FlaskForm):
         ]
     )
     remember = BooleanField()
+
+
+class ArticleForm(FlaskForm):
+    title = StringField(
+        validators=[DataRequired('文章名不能为空')]
+    )
+
+    content = StringField(
+        validators=[DataRequired('文章内容不能为空')]
+    )

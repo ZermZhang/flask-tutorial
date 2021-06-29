@@ -60,6 +60,11 @@ hr {
     margin: 0 auto 4rem auto;
 }
 
+/* 文章编辑页面 */
 .title-input {
     width: 200px;
+}
+
+.content-input {
+    height: auto;
 }
