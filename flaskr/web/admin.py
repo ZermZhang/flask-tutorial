@@ -50,6 +50,13 @@ def admin_create():
 @login_required
 def admin_mdeditor():
     form = PostForm(request.form)
+
+    if form.publish.data:
+        print("This a publish action.")
+
+    if form.save.data:
+        print("This a save action.")
+
     print(form.title.data)
     print(form.content_markdown.data)
     print(form.description.data)
