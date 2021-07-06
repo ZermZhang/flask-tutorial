@@ -14,6 +14,7 @@ from flask import (
 
 from flaskr.web.auth import login_required
 from flaskr.libs.forms import ArticleForm, PostForm
+from flaskr.libs.helper import remove_html_tag
 from flaskr.db import get_db
 
 bp = Blueprint('admin', __name__, url_prefix='/admin')
@@ -50,16 +51,26 @@ def admin_create():
 @login_required
 def admin_mdeditor():
     form = PostForm(request.form)
+    if form.validate_on_submit():
+        form.content.data = request.form['markdownEditor-html-code']
+        if not form.description.data:
+            form.description.data = remove_html_tag(form.content.data)[0: 150]
 
-    if form.publish.data:
-        print("This a publish action.")
+        if form.publish.data:
+            article_title = form.title.data
+            article_content = form.content.data
 
-    if form.save.data:
-        print("This a save action.")
+            db = get_db()
+            db.execute(
+                'INSERT INTO post (title, body, author_id)'
+                ' VALUES (?, ?, ?)',
+                (article_title, article_content, g.user['id'])
+            )
+            db.commit()
+            return redirect(url_for('blog.index'))
+        if form.save.data:
+            print("This a save action.")
+    else:
+        print("Something wrong in form!")
 
-    print(form.title.data)
-    print(form.content_markdown.data)
-    print(form.description.data)
-    print(form.validate_on_submit())
-    print(form.errors)
     return render_template('admin/admin_mdeditor.html', form=form)
