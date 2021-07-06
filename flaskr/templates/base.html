@@ -29,13 +29,13 @@
     </head>
 
     <body>
-        {# 自定义导航栏 #}
+        <!-- 自定义导航栏 -->
         {% block navbar %}{% endblock %}
 
-        {# 自定义主要内容 #}
+        <!-- 自定义主要内容 -->
         {% block content %}{% endblock %}
 
-        {# 自定义页脚 #}
+        <!-- 自定义页脚 -->
         {% block footer %}{% endblock %}
 
         <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
@@ -50,7 +50,7 @@
         <script>
             typeof(jQuery.fn.modal) !== 'undefined' || document.write("<script src='{{ url_for('static', filename='3rd/bootstrap4.4.1.js') }}'><\/script>")
         </script>
-        {# 自定义 JS 引入 #}
+        <!-- 自定义 JS 引入 -->
         {% block js %}{% endblock %}
     </body>
 </html>

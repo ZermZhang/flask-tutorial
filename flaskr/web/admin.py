@@ -46,7 +46,7 @@ def admin_create():
     return render_template('admin/admin_create.html', form=form)
 
 
-@bp.route('/admin_mdeditor', methods=['GET', 'POST'])
+@bp.route('/admin_mdeditor', methods=['POST', 'GET'])
 @login_required
 def admin_mdeditor():
     form = PostForm(request.form)
@@ -61,4 +61,5 @@ def admin_mdeditor():
     print(form.content_markdown.data)
     print(form.description.data)
     print(form.validate_on_submit())
+    print(form.errors)
     return render_template('admin/admin_mdeditor.html', form=form)

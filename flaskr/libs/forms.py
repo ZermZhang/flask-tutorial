@@ -45,23 +45,23 @@ class PostForm(FlaskForm):
     """
     title = StringField(
         validators=[
-            DataRequired('标题不能为空'),
-            Length(max=60, message='标题不要超过60个字符')
+            DataRequired(u'标题不能为空'),
+            Length(max=60, message=u'标题不要超过60个字符')
         ]
     )
     content_markdown = TextAreaField()
     content = TextAreaField()
-    categories = SelectMultipleField(
-        validators=[
-            DataRequired('必须选择一个分类')
-        ],
-        coerce=int
-    )
-    can_comment = BooleanField(label='允许评论')
+    # categories = SelectMultipleField(
+    #     validators=[
+    #         DataRequired(u'必须选择一个分类')
+    #     ],
+    #     coerce=int
+    # )
+    can_comment = BooleanField(label=u'允许评论')
     description = TextAreaField(
         validators=[
-            Length(max=150, message='描述信息不要超过150个字符')
+            Length(max=150, message=u'描述信息不要超过150个字符')
         ]
     )
-    publish = SubmitField('发布')
-    save = SubmitField('保存为草稿')
+    publish = SubmitField(u'发布')
+    save = SubmitField(u'保存为草稿')

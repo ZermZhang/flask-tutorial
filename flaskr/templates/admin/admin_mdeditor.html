@@ -28,14 +28,14 @@
                         {{ form.description.label(class="src-only") }}
                         {{ form.description(class="form-control", placeholder="SEO 信息，默认取文章前150个字符", maxlength="150", rows="3") }}
                     </div>
-                    <div>
-                        {{ form.publish(class='btn btn-info') }}
-                        {{ form.save(class='btn btn-warning ml-2') }}
-                    </div>
+                    {{ form.publish(class='btn btn-info') }}
+                    {{ form.save(class='btn btn-warning ml-2') }}
+                    {% if form.errors %}
+                        {{ form.errors }}
+                    {% endif %}
                 </form>
                 <!-- 文章编辑表单结束 -->
             </div>
-            <div class="card-footer text-muted text-left"></div>
         </div>
     </div>
 {% endblock %}
