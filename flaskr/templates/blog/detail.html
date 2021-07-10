@@ -1,7 +1,6 @@
 <!-- flaskr/templates/blog/detail.html -->
 
 {% extends 'blog/blog_base.html' %}
-{% from 'macros.html' import render_post_detail %}
 
 {% block meta %}
 <meta name="description" content="blog_subtitle">
@@ -9,19 +8,57 @@
 <meta property="og:title" content="Home">
 <meta property="og:description" content="blog_subtitle">
 {% endblock %}
+
+{% block css %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='3rd/editor/css/editormd.preview.css') }}">
+{% endblock %}
+
 {% block title %}{{ admin.blog_title }} - {{ admin.blog_subtitle }}{% endblock %}
 
 {% block content %}
-    <div class="container posts-container">
+    <div class="jumbotron jumbotron-fluid d-flex align-items-center post-jumbotron"></div>
+    <div class="container first-container">
         <div class="row">
-            <div class="col-12 header">
-                <hr>
+            <div class="col-10 post-header">
+                <h1 class="post-title">{{ post['title'] }}</h1>
+                <div class="post-meta">
+                    <span>{{ post['username'] }}</span>
+                    <span>/</span>
+                    <span>{{ post['created'].strftime('%Y-%m-%d %H:%M') }}</span>
+                </div>
             </div>
-            {{ render_post_detail(post) }}
+
+            <div class="col-10 post-container" id="postContent">
+                {{ post.body|safe }}
+            </div>
         </div>
     </div>
+    {{ super() }}
 {% endblock %}
 
 {% block js %}
-    <script src="{{ url_for('static', filename='js/detail.js') }}"></script>
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/totop.js') }}"></script>
+    <!-- EditorMd渲染正文需要的js脚本 -->
+    <script src="{{ url_for('static', filename='3rd/editor/lib/marked.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='3rd/editor/lib/prettify.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='3rd/editor/lib/raphael.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='3rd/editor/lib/underscore.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='3rd/editor/lib/flowchart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='3rd/editor/lib/jquery.flowchart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='3rd/editor/lib/sequence-diagram.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='3rd/editor/editormd.min.js') }}"></script>
+    <script>
+        (function ($) {
+            editormd.markdownToHTML('postContent', {
+                tex: true,
+                flowChart: true,
+                sequenceDiagram: true
+            });
+            $('.time').each(function() {
+                this.innerText = $.toLocalTime(this.innerText)
+            });
+        })(jQuery);
+    </script>
 {% endblock %}
