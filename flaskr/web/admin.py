@@ -8,8 +8,12 @@
 @version        : 1.0
 @Desciption     :
 """
+import json
+import os
+from datetime import datetime
+
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app, jsonify, Response
 )
 
 from flaskr.web.auth import login_required
@@ -74,3 +78,67 @@ def admin_mdeditor():
         print("Something wrong in form!")
 
     return render_template('admin/admin_mdeditor.html', form=form)
+
+
+@bp.route('/upload', methods=['POST'])
+@login_required
+def upload():
+    file = request.files.get('editormd-image-file')
+    if not file:
+        res = {
+            'success': 0,
+            'message': '上传失败'
+        }
+    else:
+        ex = os.path.splitext(file.filename)[1]
+        filename = datetime.now().strftime('%Y%m%d%H%M%S') + ex
+        file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+        res = {
+            'success': 1,
+            'message': '上传成功',
+            'url': url_for('admin.uploaded_image', name=filename)
+        }
+    return jsonify(res)
+
+
+@bp.route('/uploaded_image/<name>')
+@login_required
+def uploaded_image(name):
+    with open(os.path.join(current_app.config['UPLOAD_FOLDER'], name), 'rb') as f:
+        resp = Response(f.read(), mimetype="image/jpeg")
+    return resp
+
+
+# @bp.route('/admin_upload-image', methods=['POST'])
+# @login_required
+# def upload_image():
+#     """上传图片视图"""
+#     file = request.files.get('editormd-image-file')
+#     base_info = {
+#         'success': 0,
+#         'message': '图片上传失败'
+#     }
+#     if not file:
+#         return json.dumps(base_info)
+#     # 判断文件格式是否被允许
+#     # if not allowed_file(file.filename):
+#     #     base_info['message'] = '图片格式不被允许'
+#     #     return json.dumps(base_info)
+#     # 避免文件名重复
+#     # filename = avoided_file_duplication(file.filename)
+#     filename = file.filename
+#     file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+#     base_info['success'] = 1
+#     base_info['message'] = '图片上传成功'
+#     base_info['url'] = url_for('admin.uploaded_image', filename=filename)
+#     return json.dumps(base_info)
+#
+#
+# @bp.route('/admin/uploaded-image/<filename>')
+# @login_required
+# def uploaded_image(filename):
+#     """
+#     获取上传图片的 Response
+#     :param filename: 文件名
+#     """
+#     return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)

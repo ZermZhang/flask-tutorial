@@ -18,6 +18,8 @@ from .web import auth, blog, admin
 from . import db
 from flaskr.libs.extensions import get_login_manager
 
+basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+
 
 def register_template_context(app):
     """
@@ -40,7 +42,8 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
-        SEND_FILE_MAX_AGE_DEFAULT=timedelta(seconds=1)
+        SEND_FILE_MAX_AGE_DEFAULT=timedelta(seconds=1),
+        UPLOAD_FOLDER=os.path.join(basedir, 'flaskr/uploads')
     )
 
     if test_config is None:
