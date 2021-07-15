@@ -20,27 +20,34 @@
     <div class="jumbotron jumbotron-fluid d-flex align-items-center post-jumbotron"></div>
     <div class="container first-container">
         <div class="row">
-            <div class="col-10 post-header">
-                <h1 class="post-title">{{ post['title'] }}</h1>
-                <div class="post-meta">
-                    <span>{{ post['username'] }}</span>
-                    <span>/</span>
-                    <span>{{ post['created'].strftime('%Y-%m-%d %H:%M') }}</span>
+            <div class="col-md-9">
+                <div class="col-10 post-header">
+                    <h1 class="post-title">{{ post['title'] }}</h1>
+                    <div class="post-meta">
+                        <span>{{ post['username'] }}</span>
+                        <span>/</span>
+                        <span>{{ post['created'].strftime('%Y-%m-%d %H:%M') }}</span>
+                    </div>
+                </div>
+
+                <div class="col-10 post-container" id="postContent">
+                    {{ post.body|safe }}
                 </div>
             </div>
-
-            <div class="col-10 post-container" id="postContent">
-                {{ post.body|safe }}
-            </div>
+<!--            <div class="col-md-2 markdown-body editormd-preview-container" id="custom-toc-container">-->
+<!--                #custom-toc-container-->
+<!--            </div>-->
         </div>
     </div>
+
     {{ super() }}
 {% endblock %}
 
 {% block js %}
     {{ super() }}
     <script src="{{ url_for('static', filename='js/totop.js') }}"></script>
-    <!-- EditorMd渲染正文需要的js脚本 -->
+    <!-- Editor 渲染文章正文所需 js 脚本 -->
+    <!-- marked.min.js、prettify.min.js、editormd.min.js 为必要引入，其余则是为了额外功能 -->
     <script src="{{ url_for('static', filename='3rd/editor/lib/marked.min.js') }}"></script>
     <script src="{{ url_for('static', filename='3rd/editor/lib/prettify.min.js') }}"></script>
     <script src="{{ url_for('static', filename='3rd/editor/lib/raphael.min.js') }}"></script>
@@ -51,12 +58,14 @@
     <script src="{{ url_for('static', filename='3rd/editor/editormd.min.js') }}"></script>
     <script>
         (function ($) {
+            // 转换文章正文
             editormd.markdownToHTML('postContent', {
                 tex: true,
                 flowChart: true,
                 sequenceDiagram: true
             });
-            $('.time').each(function() {
+            // 时间本地化
+            $('.time').each(function () {
                 this.innerText = $.toLocalTime(this.innerText)
             });
         })(jQuery);

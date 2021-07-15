@@ -247,3 +247,7 @@ footer p {
     padding-right: 15px;
 }
 /* 文章详情结束 */
+
+#custom-toc-container {
+            padding-left: 0;
+        }
