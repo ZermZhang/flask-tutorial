@@ -17,8 +17,8 @@ from flask import (
 )
 
 from flaskr.web.auth import login_required
-from flaskr.libs.forms import ArticleForm, PostForm
-from flaskr.libs.helper import remove_html_tag
+from flaskr.libs.forms import ArticleForm, PostForm, NewCatrgoryForm
+from flaskr.libs.helper import remove_html_tag, get_form_error_items
 from flaskr.db import get_db
 
 bp = Blueprint('admin', __name__, url_prefix='/admin')
@@ -49,6 +49,31 @@ def admin_create():
     else:
         print("Something wrong!")
     return render_template('admin/admin_create.html', form=form)
+
+
+@bp.route('/admin_categories', methods=['POST', 'GET'])
+@login_required
+def admin_categories():
+    form = NewCatrgoryForm(request.form)
+    print(form)
+    fields_names, fields_errors = get_form_error_items(form)
+    print(fields_names)
+    print(fields_errors)
+    return render_template('admin/admin_categories.html', form=form,
+                           fields_errors=fields_errors,
+                           fields_names=fields_names)
+
+
+@bp.route('/admin_articles', methods=['POST', 'GET'])
+@login_required
+def admin_articles():
+    db = get_db()
+    posts = db.execute(
+        'SELECT p.id, title'
+        ' FROM post p JOIN user u ON p.author_id = u.id'
+        ' ORDER BY created DESC'
+    ).fetchall()
+    return render_template('admin/admin_articles.html', posts=posts)
 
 
 @bp.route('/admin_mdeditor', methods=['POST', 'GET'])
@@ -107,38 +132,3 @@ def uploaded_image(name):
     with open(os.path.join(current_app.config['UPLOAD_FOLDER'], name), 'rb') as f:
         resp = Response(f.read(), mimetype="image/jpeg")
     return resp
-
-
-# @bp.route('/admin_upload-image', methods=['POST'])
-# @login_required
-# def upload_image():
-#     """上传图片视图"""
-#     file = request.files.get('editormd-image-file')
-#     base_info = {
-#         'success': 0,
-#         'message': '图片上传失败'
-#     }
-#     if not file:
-#         return json.dumps(base_info)
-#     # 判断文件格式是否被允许
-#     # if not allowed_file(file.filename):
-#     #     base_info['message'] = '图片格式不被允许'
-#     #     return json.dumps(base_info)
-#     # 避免文件名重复
-#     # filename = avoided_file_duplication(file.filename)
-#     filename = file.filename
-#     file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-#     base_info['success'] = 1
-#     base_info['message'] = '图片上传成功'
-#     base_info['url'] = url_for('admin.uploaded_image', filename=filename)
-#     return json.dumps(base_info)
-#
-#
-# @bp.route('/admin/uploaded-image/<filename>')
-# @login_required
-# def uploaded_image(filename):
-#     """
-#     获取上传图片的 Response
-#     :param filename: 文件名
-#     """
-#     return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)

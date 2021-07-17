@@ -122,3 +122,63 @@ tbody tr {
     padding-left: 3px;
 }
 
+.content-container {
+    /* 正文容器 */
+    margin-top: 100px;
+}
+/* 管理页面标题及相关提示开始 */
+.table_tips {
+    margin-bottom: 2rem;
+}
+.table_tips h3 {
+    margin-bottom: 1rem;
+    color: #333333;
+}
+.table_tips .tip {
+    margin-bottom: .5rem;
+}
+.table_tips .tip p {
+    margin-bottom: 0;
+    padding-left: .5rem;
+}
+/* 管理页面标题及相关提示开始 */
+/* 表单开始 */
+.inline-form-container {
+    box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 30px;
+}
+.inline-form-new-error,
+.inline-form-edit-error {
+    margin-top: 1rem;
+    margin-left: .5rem;
+    line-height: 20px;
+}
+.inline-form-edit-error {
+    /* 编辑表单错误 */
+    padding-left: 2px;
+}
+/* 表单结束 */
+/* 内容展示表格开始 */
+.table td,
+.table th,
+.table thead th {
+    border: 10px;
+    vertical-align: unset;
+}
+tbody tr {
+    height: 40px;
+    background: #fff;
+    box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.1);
+    color: #333333;
+    transition: opacity 500ms ease-in-out, transform 1s ease;
+}
+.spacer {
+    background: transparent;
+    display: block;
+    height: 8px;
+    box-shadow: unset;
+}
+/* 内容展示表格结束 */

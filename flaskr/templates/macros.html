@@ -83,6 +83,35 @@
     </div>
 {% endmacro %}
 
+{% macro render_article_title(post) %}
+    {#
+        对文章管理页面的信息进行渲染
+        :post 文章标题信息
+    #}
+    <tr data-id="{{ post.id }}">
+        <td></td>
+        <td>
+            {{ post.id }}
+        </td>
+        <td>
+            <a class="post-title" href="{{ url_for('blog.detail', id=post['id']) }}">
+                {{ post.title }}
+            </a>
+        </td>
+        <td>
+            暂无
+        </td>
+        <td>
+            暂无
+        </td>
+        <td>
+            <button type="button" class="btn btn-warning btn-sm edit-btn">修改</button>
+            <button type="button" class="btn btn-danger btn-sm dit-btn mx-sm-2">删除</button>
+        </td>
+    </tr>
+    <tr class="spacer"></tr>
+{% endmacro %}
+
 {% macro render_post_detail(post) %}
     {#
         对文章摘要进行渲染

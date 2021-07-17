@@ -65,3 +65,14 @@ class PostForm(FlaskForm):
     )
     publish = SubmitField(u'发布')
     save = SubmitField(u'保存为草稿')
+
+
+class NewCatrgoryForm(FlaskForm):
+    name = StringField(validators=[
+        DataRequired("分类名不能为空"),
+        Length(max=12, message="分类名最长不能超过12个字符")
+    ])
+    alias = StringField(validators=[
+        Length(max=24, message="别名最长不超过24个字符")
+    ])
+    show = BooleanField()

@@ -1,0 +1,54 @@
+<!-- flaskr/templates/admin/admin_categories.html -->
+
+{% extends 'admin/admin_base.html'%}
+{% block title %}分类管理 - {{ admin.blog_title }}{% endblock %}
+
+{% block content %}
+  <div class="ajax_error fixed_top d-none" id="ajaxError"></div>
+  <div class="mask d-none" id="mask"></div>
+  <div class="container content-container">
+    <div class="row justify-content-center">
+      <div class="col-12 inline-form-container">
+        <form action="{{ url_for('admin.admin_categories') }}" method="post">
+          {{ form.csrf_token }}
+          <div class="form-row align-items-center">
+            <div class="col-sm-3 my-1">
+              <label class="sr-only" for="categoryName">分类名</label>
+              <input class="form-control {% if 'name' in fields_names %}is-invalid{% endif %}" type="text"
+                     placeholder="分类名" name="name" id="categoryName" value="{{ form.name.data }}">
+            </div>
+            <div class="col-sm-3 my-1">
+              <label class="sr-only" for="categoryAlias">分类名</label>
+              <input class="form-control {% if 'alias' in fields_names %}is-invalid{% endif %}" type="text"
+                     placeholder="分类别名" name="alias" value="{{ form.alias.data }}">
+            </div>
+            <div class="col-auto my-1">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="categoryShow" name="show" checked>
+                <label class="form-check-label" for="categoryShow">显示</label>
+              </div>
+            </div>
+            <div class="col-auto my-1">
+              <button type="submit" class="btn btn-info">添加分类</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- 信息展示表格 -->
+      <table class="col-12">
+        <thead>
+        <tr>
+          <th class="small text-muted font-weight-bold" scope="col">分类名</th>
+          <th class="small text-muted font-weight-bold" scope="col">别名</th>
+          <th class="small text-muted font-weight-bold" scope="col">显示状态</th>
+          <th class="small text-muted font-weight-bold" scope="col">文章</th>
+          <th class="small text-muted font-weight-bold" scope="col">操作</th>
+        </tr>
+        </thead>
+      </table>
+
+    </div>
+  </div>
+
+{% endblock %}
