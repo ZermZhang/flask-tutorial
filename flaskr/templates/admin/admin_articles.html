@@ -10,15 +10,18 @@
   <div class="mask d-none" id="mask"></div>
   <div class="container content-container">
     <div class="row justify-content-center">
+        <div class="col-12 inline-form-container">
+            <a class="nav-link" href="{{ url_for('admin.admin_mdeditor') }}">新建文章</a>
+        </div>
       <!-- 信息展示表格 -->
-      <table class="col-12">
+      <table class="table col-12">
           <thead>
           <tr>
-              <th></th>
               <th class="small text-muted font-weight-bold" scope="col">文章编号</th>
               <th class="small text-muted font-weight-bold" scope="col">文章名</th>
               <th class="small text-muted font-weight-bold" scope="col">类目</th>
               <th class="small text-muted font-weight-bold" scope="col">状态</th>
+              <th class="small text-muted font-weight-bold" scope="col">创建时间</th>
               <th class="small text-muted font-weight-bold" scope="col">操作</th>
           </tr>
           </thead>

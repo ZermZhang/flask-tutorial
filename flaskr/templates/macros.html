@@ -89,7 +89,6 @@
         :post 文章标题信息
     #}
     <tr data-id="{{ post.id }}">
-        <td></td>
         <td>
             {{ post.id }}
         </td>
@@ -105,7 +104,17 @@
             暂无
         </td>
         <td>
-            <button type="button" class="btn btn-warning btn-sm edit-btn">修改</button>
+            {{ post.created.strftime('%Y-%m-%d %H:%M') }}
+        </td>
+        <td>
+            <a class="btn btn-sm btn-info mr-1"
+               href="{{ url_for('admin.admin_update', id=post.id) }}">
+                修改
+            </a>
+<!--            <button type="button" class="btn btn-warning btn-sm edit-btn"-->
+<!--                    onclick="">-->
+<!--                修改-->
+<!--            </button>-->
             <button type="button" class="btn btn-danger btn-sm dit-btn mx-sm-2">删除</button>
         </td>
     </tr>

@@ -17,6 +17,7 @@ from flask import (
 )
 
 from flaskr.web.auth import login_required
+from flaskr.web.blog import get_post
 from flaskr.libs.forms import ArticleForm, PostForm, NewCatrgoryForm
 from flaskr.libs.helper import remove_html_tag, get_form_error_items
 from flaskr.db import get_db
@@ -69,11 +70,42 @@ def admin_categories():
 def admin_articles():
     db = get_db()
     posts = db.execute(
-        'SELECT p.id, title'
+        'SELECT p.id, title, created'
         ' FROM post p JOIN user u ON p.author_id = u.id'
         ' ORDER BY created DESC'
     ).fetchall()
     return render_template('admin/admin_articles.html', posts=posts)
+
+
+@bp.route('/<int:id>/update', methods=('GET', 'POST'))
+@login_required
+def admin_update(id):
+    post = get_post(id)
+
+    form = PostForm(request.form)
+
+    if form.validate_on_submit():
+        form.content.data = request.form['markdownEditor-html-code']
+        if not form.description.data:
+            form.description.data = remove_html_tag(form.content.data)[0:150]
+
+        if form.publish.data:
+            article_title = form.title.data
+            article_content = form.content.data
+            ori_md_body =request.form['markdownEditor-markdown-doc']
+
+            db = get_db()
+            db.execute(
+                'UPDATE post SET title = ?, body = ?, md_body = ?'
+                ' WHERE id = ?',
+                (article_title, article_content, ori_md_body, id)
+            )
+            db.commit()
+            return redirect(url_for('blog.index'))
+
+        if form.save.data:
+            print('This is a saveaction.')
+    return render_template('admin/admin_update.html', post=post, form=form)
 
 
 @bp.route('/admin_mdeditor', methods=['POST', 'GET'])
@@ -91,9 +123,9 @@ def admin_mdeditor():
 
             db = get_db()
             db.execute(
-                'INSERT INTO post (title, body, author_id)'
-                ' VALUES (?, ?, ?)',
-                (article_title, article_content, g.user['id'])
+                'INSERT INTO post (title, body, md_body, author_id)'
+                ' VALUES (?, ?, ?, ?)',
+                (article_title, article_content, form.content_markdown.data, g.user['id'])
             )
             db.commit()
             return redirect(url_for('blog.index'))
