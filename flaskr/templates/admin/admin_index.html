@@ -1,2 +1,51 @@
 <!-- flaskr/templates/admin/admin_index.html -->
 {% extends 'admin/admin_base.html' %}
+
+{% block title %}后台总览 - {{ admin.blog_title }}{% endblock %}
+
+{% block content %}
+<div class="container content-container">
+    <div class="row justify-content-around">
+        <div class="card mb-3 col-5 admin-index-card">
+            <div class="card-header">概览</div>
+            <div class="card-body text-dark">
+                <a href="{{ url_for('admin.admin_mdeditor') }}" class="badge badge-primary mb-3">
+                    新建文章
+                </a>
+                <h5 class="display-5">
+                    {{ post_cnt[0][0] }}篇已发表文章
+                </h5>
+                <h5 class="display-5">
+                    15篇测试文章
+                </h5>
+            </div>
+        </div>
+
+        <div class="card mb-3 col-5 admin-index-card">
+            <div class="card-header">测试 card1</div>
+            <div class="card-body text-dark">
+                <h5 class="display-5">
+                    22篇已发表文章
+                </h5>
+                <h5 class="display-5">
+                    15篇测试文章
+                </h5>
+            </div>
+        </div>
+
+        <div class="card mb-3 col-5 admin-index-card">
+            <div class="card-header">测试 card2</div>
+            <div class="card-body text-dark">
+                <h5 class="display-5">
+                    22篇已发表文章
+                </h5>
+                <h5 class="display-5">
+                    15篇测试文章
+                </h5>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

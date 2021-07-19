@@ -28,7 +28,11 @@ bp = Blueprint('admin', __name__, url_prefix='/admin')
 @bp.route('/admin_index')
 @login_required
 def admin_index():
-    return render_template('admin/admin_index.html')
+    db = get_db()
+
+    post_cnt = db.execute("SELECT COUNT(*) from post").fetchall()
+
+    return render_template('admin/admin_index.html', post_cnt=post_cnt)
 
 
 @bp.route('/admin_create', methods=['GET', 'POST'])
@@ -92,7 +96,7 @@ def admin_update(id):
         if form.publish.data:
             article_title = form.title.data
             article_content = form.content.data
-            ori_md_body =request.form['markdownEditor-markdown-doc']
+            ori_md_body = request.form['markdownEditor-markdown-doc']
 
             db = get_db()
             db.execute(
